@@ -1,0 +1,299 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#10291f">
+    <meta name="description" content="An interactive mushroom-inspired computer network with route selection and network failure simulation.">
+    <title>Mycelium | Smart Network Lab</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a class="brand" href="#" aria-label="Mycelium home">
+                <span class="brand-icon">🍄</span>
+                <span>
+                    <strong>MYCELIUM</strong>
+                    <small>NETWORK LAB</small>
+                </span>
+            </a>
+
+            <div class="sidebar-label">WORKSPACE</div>
+            <a class="nav-link active" href="#overview"><span>◈</span> Overview</a>
+            <a class="nav-link" href="#network"><span>⌘</span> Network Map</a>
+            <a class="nav-link" href="#history"><span>↗</span> Route History</a>
+
+            <div class="sidebar-bottom">
+                <div class="nature-card">
+                    <span class="nature-icon">🌱</span>
+                    <h3>Inspired by nature</h3>
+                    <p>Exploring how mycelium networks inspire resilient computer connections.</p>
+                </div>
+                <div class="sidebar-footer">
+                    <span class="status-dot"></span> Simulation environment
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div>
+                    <div class="eyebrow">ENGINEERING LIFE / UNIT IV</div>
+                    <h1>Network Control Center</h1>
+                </div>
+                <div class="topbar-right">
+                    <span class="live-pill"><span class="status-dot"></span> SYSTEM ONLINE</span>
+                    <div class="avatar">🍃</div>
+                </div>
+            </header>
+
+            <section class="welcome-banner" id="overview">
+                <div class="welcome-copy">
+                    <span class="banner-label">BIO-INSPIRED COMPUTING</span>
+                    <h2>Nature connects.<br><span>Technology follows.</span></h2>
+                    <p>
+                        Explore a computer network inspired by the interconnected
+                        structure of mushroom mycelium. Find routes, send data,
+                        and test what happens when a connection fails.
+                    </p>
+                    <a class="banner-link" href="#network">Explore network <span>↘</span></a>
+                </div>
+                <div class="banner-art" aria-hidden="true">
+                    <div class="art-orbit orbit-one"></div>
+                    <div class="art-orbit orbit-two"></div>
+                    <div class="art-orbit orbit-three"></div>
+                    <div class="mushroom-art">🍄</div>
+                    <span class="art-node art-node-one"></span>
+                    <span class="art-node art-node-two"></span>
+                    <span class="art-node art-node-three"></span>
+                    <span class="art-node art-node-four"></span>
+                    <span class="art-branch branch-one"></span>
+                    <span class="art-branch branch-two"></span>
+                    <span class="art-branch branch-three"></span>
+                </div>
+            </section>
+
+            <section class="stats-grid" aria-label="Network statistics">
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">COMPUTER NODES</span>
+                        <span class="stat-icon green-icon">⌘</span>
+                    </div>
+                    <div class="stat-value">04</div>
+                    <div class="stat-note"><span class="tiny-dot"></span> Connected devices</div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">ACTIVE CONNECTIONS</span>
+                        <span class="stat-icon blue-icon">⌁</span>
+                    </div>
+                    <div class="stat-value" id="linkCount">4 <small>/ 4</small></div>
+                    <div class="stat-note" id="connectionNote">All links available</div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">LAST ROUTE COST</span>
+                        <span class="stat-icon gold-icon">↗</span>
+                    </div>
+                    <div class="stat-value" id="routeCost">--</div>
+                    <div class="stat-note">Total connection weight</div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">NETWORK HEALTH</span>
+                        <span class="stat-icon green-icon">♡</span>
+                    </div>
+                    <div class="stat-value health-value" id="routeStatus">Optimal</div>
+                    <div class="health-track"><span id="healthBar"></span></div>
+                    <div class="stat-note" id="statusDetail">All links operational</div>
+                </article>
+            </section>
+
+            <section class="content-grid">
+                <article class="surface route-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <div class="eyebrow">ROUTE MANAGEMENT</div>
+                            <h2>Find the best path</h2>
+                            <p>Choose a starting point and destination.</p>
+                        </div>
+                        <span class="heading-icon">⌁</span>
+                    </div>
+
+                    <div class="select-row">
+                        <label class="field">
+                            <span>FROM NODE</span>
+                            <select id="start">
+                                <option value="A">● Computer A</option>
+                                <option value="B">● Computer B</option>
+                                <option value="C">● Computer C</option>
+                                <option value="D">● Computer D</option>
+                            </select>
+                        </label>
+                        <div class="direction-arrow">→</div>
+                        <label class="field">
+                            <span>TO NODE</span>
+                            <select id="destination">
+                                <option value="A">● Computer A</option>
+                                <option value="B">● Computer B</option>
+                                <option value="C" selected>● Computer C</option>
+                                <option value="D">● Computer D</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <button id="findRouteBtn" class="primary-button">
+                        <span>✳</span> Find best route <span class="button-arrow">↗</span>
+                    </button>
+
+                    <button id="failureBtn" class="secondary-button">
+                        <span>⚡</span> Simulate link failure
+                    </button>
+
+                    <button id="resetBtn" class="text-button">
+                        ↻ Restore all connections
+                    </button>
+
+                    <div id="result" class="result-box" aria-live="polite">
+                        <span class="result-symbol">✳</span>
+                        <div>
+                            <strong>Ready to explore</strong>
+                            <p>Choose two computers to find a route.</p>
+                        </div>
+                    </div>
+
+                    <div class="algorithm-note">
+                        <span>ⓘ</span>
+                        <p><strong>Routing method</strong><br>
+                        Dijkstra's shortest-path algorithm compares available connection costs.</p>
+                    </div>
+                </article>
+
+                <article class="surface network-panel" id="network">
+                    <div class="panel-heading network-heading">
+                        <div>
+                            <div class="eyebrow">LIVE TOPOLOGY</div>
+                            <h2>Mycelium network</h2>
+                            <p>Watch data travel through connected nodes.</p>
+                        </div>
+                        <span class="live-pill"><span class="status-dot"></span> LIVE</span>
+                    </div>
+
+                    <div class="network-legend">
+                        <span><i class="legend-line active-line"></i> Active link</span>
+                        <span><i class="legend-line route-line"></i> Selected route</span>
+                        <span><i class="legend-line failed-line"></i> Failed link</span>
+                    </div>
+
+                    <div class="network-stage">
+                        <div class="stage-grid"></div>
+                        <svg id="networkSvg" viewBox="0 0 600 350"
+                             role="img" aria-label="Interactive network with computers A, B, C, and D">
+
+                            <line id="AB" class="network-link" x1="125" y1="80" x2="475" y2="80"/>
+                            <line id="BC" class="network-link" x1="475" y1="80" x2="475" y2="270"/>
+                            <line id="AD" class="network-link" x1="125" y1="80" x2="125" y2="270"/>
+                            <line id="DC" class="network-link" x1="125" y1="270" x2="475" y2="270"/>
+
+                            <g class="edge-label" transform="translate(300 80)">
+                                <rect x="-19" y="-14" width="38" height="27" rx="8"/>
+                                <text y="5">4</text>
+                            </g>
+                            <g class="edge-label" transform="translate(475 175)">
+                                <rect x="-19" y="-14" width="38" height="27" rx="8"/>
+                                <text y="5">4</text>
+                            </g>
+                            <g class="edge-label" transform="translate(125 175)">
+                                <rect x="-19" y="-14" width="38" height="27" rx="8"/>
+                                <text y="5">2</text>
+                            </g>
+                            <g class="edge-label" transform="translate(300 270)">
+                                <rect x="-19" y="-14" width="38" height="27" rx="8"/>
+                                <text y="5">3</text>
+                            </g>
+
+                            <g id="nodeA" class="network-node" transform="translate(125 80)">
+                                <circle class="node-halo" r="43"/>
+                                <circle class="node-circle" r="30"/>
+                                <text class="node-letter" y="6">A</text>
+                                <text class="node-name" y="56">Computer A</text>
+                            </g>
+                            <g id="nodeB" class="network-node" transform="translate(475 80)">
+                                <circle class="node-halo" r="43"/>
+                                <circle class="node-circle" r="30"/>
+                                <text class="node-letter" y="6">B</text>
+                                <text class="node-name" y="56">Computer B</text>
+                            </g>
+                            <g id="nodeC" class="network-node" transform="translate(475 270)">
+                                <circle class="node-halo" r="43"/>
+                                <circle class="node-circle" r="30"/>
+                                <text class="node-letter" y="6">C</text>
+                                <text class="node-name" y="56">Computer C</text>
+                            </g>
+                            <g id="nodeD" class="network-node" transform="translate(125 270)">
+                                <circle class="node-halo" r="43"/>
+                                <circle class="node-circle" r="30"/>
+                                <text class="node-letter" y="6">D</text>
+                                <text class="node-name" y="56">Computer D</text>
+                            </g>
+
+                            <circle id="dataPacket" cx="125" cy="80" r="8"
+                                    visibility="hidden" class="data-packet"/>
+                        </svg>
+                        <div class="stage-caption"><span class="status-dot"></span> Network simulation active</div>
+                    </div>
+
+                    <div class="network-footer">
+                        <span><span class="mini-icon">⌘</span> 4 network nodes</span>
+                        <span><span class="mini-icon">⌁</span> Weighted connections</span>
+                        <span><span class="mini-icon">↗</span> Adaptive route search</span>
+                    </div>
+                </article>
+            </section>
+
+            <section class="surface history-panel" id="history">
+                <div class="panel-heading history-heading">
+                    <div>
+                        <div class="eyebrow">ACTIVITY LOG</div>
+                        <h2>Recent network activity</h2>
+                        <p>Review route searches and connection changes.</p>
+                    </div>
+                    <button id="clearHistoryBtn" class="clear-button">Clear history ↗</button>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>TIME</th>
+                                <th>EVENT</th>
+                                <th>ROUTE / DETAILS</th>
+                                <th>COST</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyBody">
+                            <tr>
+                                <td colspan="4" class="empty-history">
+                                    No activity yet. Find a route to begin.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <footer class="page-footer">
+                <span>🍄 MYCELIUM NETWORK LAB</span>
+                <span>Inspired by nature. Designed for learning.</span>
+                <span>TEAM 5 · ENGINEERING LIFE</span>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>
